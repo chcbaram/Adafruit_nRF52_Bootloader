@@ -315,7 +315,7 @@ CFLAGS += -DUF2_VERSION='"$(GIT_VERSION) $(GIT_SUBMODULE_VERSIONS)"'
 CFLAGS += -DBLEDIS_FW_VERSION='"$(GIT_VERSION) $(SD_NAME) $(SD_VERSION)"'
 
 _VER = $(subst ., ,$(word 1, $(subst -, ,$(GIT_VERSION))))
-CFLAGS += -DMK_BOOTLOADER_VERSION='($(word 1,$(_VER)) << 16) + ($(word 2,$(_VER)) << 8) + $(word 3,$(_VER))'
+CFLAGS += -DMK_BOOTLOADER_VERSION='0x00020A'#'($(word 1,$(_VER)) << 16) + ($(word 2,$(_VER)) << 8) + $(word 3,$(_VER))'
 
 # Debug option use RTT for printf
 ifeq ($(DEBUG), 1)
@@ -350,7 +350,7 @@ LDFLAGS += \
 	-Wl,-L,linker -Wl,-T,$(LD_FILE) \
 	-Wl,--print-memory-usage \
 	-Wl,-Map=$@.map -Wl,-cref -Wl,-gc-sections \
-	-specs=nosys.specs -specs=nano.specs
+	-specs=nosys.specs -specs=nano.specs 
 
 LIBS += -lm -lc
 
