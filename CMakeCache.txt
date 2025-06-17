@@ -66,6 +66,8 @@ _Python_EXECUTABLE:INTERNAL=/opt/homebrew/Frameworks/Python.framework/Versions/3
 //Python Properties
 _Python_INTERPRETER_PROPERTIES:INTERNAL=Python;3;13;3;64;<none>;cpython-313-darwin.so;abi3;/opt/homebrew/opt/python@3.13/Frameworks/Python.framework/Versions/3.13/lib/python3.13;/opt/homebrew/opt/python@3.13/Frameworks/Python.framework/Versions/3.13/lib/python3.13;/opt/homebrew/lib/python3.13/site-packages;/opt/homebrew/lib/python3.13/site-packages
 _Python_INTERPRETER_SIGNATURE:INTERNAL=b5e640a96750b8706122ac65f62189f6
+//Interpreter reason failure
+_Python_Interpreter_REASON_FAILURE:INTERNAL=
 //NumPy reason failure
 _Python_NumPy_REASON_FAILURE:INTERNAL=
 
