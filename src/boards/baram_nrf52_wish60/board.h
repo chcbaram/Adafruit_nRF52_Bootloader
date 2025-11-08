@@ -33,7 +33,8 @@
 /* LED
  *------------------------------------------------------------------*/
 #define LEDS_NUMBER       1
-#define LED_PRIMARY_PIN   _PINNUM(0, 31) 
+#define LED_PRIMARY_PIN   _PINNUM(0, 5) 
+#define LED_SECONDARY_PIN _PINNUM(0, 31) 
 #define LED_STATE_ON      1
 
 /*------------------------------------------------------------------*/
