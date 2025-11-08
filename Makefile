@@ -104,24 +104,31 @@ BIN = _bin/$(BOARD)
 
 # MCU_SUB_VARIANT can be nrf52 (nrf52832), nrf52833, nrf52840
 ifeq ($(MCU_SUB_VARIANT),nrf52)
+  CFLAGS += -DNRF52 -DNRF52832_XXAA
   SD_NAME = s132
   DFU_DEV_REV = 0xADAF
-  CFLAGS += -DNRF52 -DNRF52832_XXAA -DS132
   DFU_APP_DATA_RESERVED=7*4096
 else ifeq ($(MCU_SUB_VARIANT),nrf52833)
-  SD_NAME = s140
+  CFLAGS += -DNRF52833_XXAA
   DFU_DEV_REV = 52833
-  CFLAGS += -DNRF52833_XXAA -DS140
   DFU_APP_DATA_RESERVED=7*4096
+  ifndef SD_NAME
+		SD_NAME = s140
+	endif
 else ifeq ($(MCU_SUB_VARIANT),nrf52840)
-  SD_NAME = s140
+  CFLAGS += -DNRF52840_XXAA
   DFU_DEV_REV = 52840
-  CFLAGS += -DNRF52840_XXAA -DS140
   # App reserved 40KB (8+32) to match circuitpython for 840
   DFU_APP_DATA_RESERVED=10*4096
+  ifndef SD_NAME
+		SD_NAME = s140
+	endif
 else
   $(error Sub Variant $(MCU_SUB_VARIANT) is unknown)
 endif
+
+SD_NAME_UPPER = $(subst s,S,${SD_NAME})
+CFLAGS += -D$(SD_NAME_UPPER)
 
 #------------------------------------------------------------------------------
 # SOURCE FILES
@@ -336,8 +343,8 @@ endif
 CFLAGS += -DDFU_APP_DATA_RESERVED=$(DFU_APP_DATA_RESERVED)
 
 # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=105523
-# Fixes for gcc version 12 and 13.
-ifneq (,$(filter 12.% 13.%,$(shell $(CC) -dumpversion 2>/dev/null)))
+# Fixes for gcc version 12, 13 and 14.
+ifneq (,$(filter 12.% 13.% 14.%,$(shell $(CC) -dumpversion 2>/dev/null)))
 	CFLAGS += --param=min-pagesize=0
 endif
 
@@ -500,7 +507,7 @@ dfu-flash: flash-dfu
 flash-dfu: $(BUILD)/$(MERGED_FILE).zip
 	@:$(call check_defined, SERIAL, example: SERIAL=/dev/ttyACM0)
 	$(NRFUTIL) --verbose dfu serial --package $< -p $(SERIAL) -b 115200 --singlebank --touch 1200
-	
+
 # flash skip crc magic ( app valid = 0x0001, crc = 0x0000 )
 #flash-skip-crc:
 # nrfjprog --memwr $(BOOT_SETTING_ADDR) --val 0x00000001 -f nrf52
