@@ -100,6 +100,7 @@ void led_pwm_disable(uint32_t led_index);
 void led_pwm_enable(uint32_t led_index);
 void led_state(uint32_t state);
 void led_tick(void);
+uint32_t board_millis(void);
 
 //--------------------------------------------------------------------+
 // BUTTONS

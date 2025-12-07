@@ -109,6 +109,10 @@ static void dfu_startup_timer_handler(void * p_context)
  */
 static void wait_for_events(void)
 {
+#ifdef NRF_USBD  
+  uint32_t pre_time = board_millis();
+#endif
+
   for ( ;; )
   {
     // Wait in low power state for any events.
@@ -128,9 +132,17 @@ static void wait_for_events(void)
 #ifdef NRF_USBD
     // skip if usb is not inited ( e.g OTA / finializing sd/bootloader )
     if ( tusb_inited() )
-    {
+    {            
       tud_task();
       tud_cdc_write_flush();
+
+      if (board_millis()-pre_time >= 3000)
+      {
+        if (!tud_connected())
+        {
+          return;
+        }      
+      }
     }
 #endif
 

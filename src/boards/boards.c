@@ -461,6 +461,11 @@ void led_state(uint32_t state) {
 #endif
 }
 
+uint32_t board_millis(void)
+{
+  return _systick_count;
+}
+
 #ifdef LED_NEOPIXEL
 
 // WS2812B (rev B) timing is 0.4 and 0.8 us
